@@ -20,7 +20,8 @@ class SocketService {
       this.disconnect();
     }
 
-    const SOCKET_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+    const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || (apiUrl.endsWith('/api') ? apiUrl.slice(0, -4) : apiUrl);
 
     console.log("🔌 Creating NEW socket connection to:", SOCKET_URL);
     console.log("   Timestamp:", new Date().toISOString());
