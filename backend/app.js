@@ -7,15 +7,11 @@ import chatRouter from "./src/routes/chat.routes.js";
 
 const app = express();
 
-// CORS - Allow Vercel frontend
+// CORS - Allow all origins for testing (Postman, etc.)
 app.use(
   cors({
-    origin: [
-      "https://intellichat-main.vercel.app",
-      "http://localhost:5173",
-      "http://localhost:3000",
-    ],
-    credentials: true,
+    origin: true, // Allow all origins
+    credentials: true, // ESSENTIAL for cookies
   }),
 );
 app.use(express.json());
