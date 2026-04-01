@@ -1,19 +1,19 @@
-const BASE_URL = '/api';
+const BASE_URL = import.meta.env.VITE_API_URL || "/api";
 
 export const chatService = {
   // Create a new conversation
-  createConversation: async (title, aiProvider = 'groq') => {
+  createConversation: async (title, aiProvider = "groq") => {
     try {
       const response = await fetch(`${BASE_URL}/chat/conversations`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
-        body: JSON.stringify({ title, aiProvider })
+        credentials: "include",
+        body: JSON.stringify({ title, aiProvider }),
       });
-      
-      if (!response.ok) throw new Error('Failed to create conversation');
+
+      if (!response.ok) throw new Error("Failed to create conversation");
       return response.json();
     } catch (error) {
       throw new Error(error.message);
@@ -26,11 +26,11 @@ export const chatService = {
       const response = await fetch(
         `${BASE_URL}/chat/conversations?page=${page}&limit=${limit}`,
         {
-          credentials: 'include'
-        }
+          credentials: "include",
+        },
       );
-      
-      if (!response.ok) throw new Error('Failed to fetch conversations');
+
+      if (!response.ok) throw new Error("Failed to fetch conversations");
       return response.json();
     } catch (error) {
       throw new Error(error.message);
@@ -40,23 +40,23 @@ export const chatService = {
   // Get a specific conversation with messages
   getConversation: async (conversationId) => {
     try {
-        const response = await fetch(
-            `${BASE_URL}/chat/conversations/${conversationId}`,
-            {
-                credentials: 'include'
-            }
-        );
-        
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Failed to fetch conversation');
-        }
+      const response = await fetch(
+        `${BASE_URL}/chat/conversations/${conversationId}`,
+        {
+          credentials: "include",
+        },
+      );
 
-        const data = await response.json();
-        return data;
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to fetch conversation");
+      }
+
+      const data = await response.json();
+      return data;
     } catch (error) {
-        console.error('Error fetching conversation:', error);
-        throw error;
+      console.error("Error fetching conversation:", error);
+      throw error;
     }
   },
 
@@ -66,28 +66,28 @@ export const chatService = {
       const response = await fetch(
         `${BASE_URL}/chat/conversations/${conversationId}/messages`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          credentials: 'include',
-          body: JSON.stringify({ content, aiProvider })
-        }
+          credentials: "include",
+          body: JSON.stringify({ content, aiProvider }),
+        },
       );
-      
+
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to send message');
+        throw new Error(errorData.message || "Failed to send message");
       }
 
       const data = await response.json();
       if (!data.success) {
-        throw new Error(data.message || 'Failed to send message');
+        throw new Error(data.message || "Failed to send message");
       }
 
       return data;
     } catch (error) {
-      console.error('Error in sendMessage:', error);
+      console.error("Error in sendMessage:", error);
       throw error;
     }
   },
@@ -98,17 +98,17 @@ export const chatService = {
       const response = await fetch(
         `${BASE_URL}/chat/conversations/${conversationId}`,
         {
-          method: 'DELETE',
-          credentials: 'include'
-        }
+          method: "DELETE",
+          credentials: "include",
+        },
       );
-      
-      if (!response.ok) throw new Error('Failed to delete conversation');
+
+      if (!response.ok) throw new Error("Failed to delete conversation");
       return response.json();
     } catch (error) {
       throw new Error(error.message);
     }
-  }
+  },
 };
 
 export default chatService;
