@@ -20,10 +20,7 @@ class SocketService {
       this.disconnect();
     }
 
-    const SOCKET_URL =
-      import.meta.env.VITE_API_URL ||
-      `https://intellichat-main-v8q8.vercel.app/` ||
-      "http://localhost:8000";
+    const SOCKET_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
     console.log("🔌 Creating NEW socket connection to:", SOCKET_URL);
     console.log("   Timestamp:", new Date().toISOString());
